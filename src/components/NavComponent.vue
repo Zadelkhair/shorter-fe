@@ -4,13 +4,12 @@ import { SERVER_ENDPOINT } from "@/config.js";
 const user = window.user;
 
 const logout = async () => {
-
   // log out api
   try {
     const res = await axios.post(SERVER_ENDPOINT + "/api/logout", {
       headers: {
-        "Authorization": "Bearer " + user.token,
-        "Accept": "application/json"
+        Authorization: "Bearer " + user.token,
+        Accept: "application/json",
       },
     });
     console.log(res);
@@ -21,55 +20,71 @@ const logout = async () => {
     window.location.href = "/";
     localStorage.removeItem("user");
   }
-
 };
-
 </script>
 
 <template>
-  <div class="app-navbar">
-    <div class="app-logo">
-      <router-link to="/">
-        <img src="../assets/shortlink.png" alt="logo" />
+  <nav class="navbar navbar-expand-lg app-navbar">
+    <div class="container-fluid">
+      <router-link class="navbar-brand" to="/">
+        <img src="../assets/shortlink.png" alt="logo"
+        style="width: 50px; height: 50px; margin-right: 10px;"
+        />
       </router-link>
-    </div>
 
-    <div class="app-nav">
-      <ul>
-        <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/about">About Us</router-link></li>
-        <li><router-link to="/services">Services</router-link></li>
-        <li><router-link to="/contact">Contact Us</router-link></li>
-      </ul>
-    </div>
-
-    <!-- auth -->
-    <div class="app-auth">
-      <ul v-if="!user">
-        <li><router-link to="/login">Login</router-link></li>
-        <li><router-link to="/register">Register</router-link></li>
-      </ul>
-    </div>
-
-    <div v-if="user" class="dropdown">
-      <a
-        class="btn dropdown-toggle"
-        href="#"
-        role="button"
-        data-bs-toggle="dropdown"
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
         aria-expanded="false"
+        aria-label="Toggle navigation"
       >
-        <i class="fa fa-user me-2"></i>
-        {{ user.name }}
-      </a>
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-      <ul class="dropdown-menu">
-        <!-- logout button -->
-        <li><a class="dropdown-item" href="#" @click="logout">Logout</a></li>
-      </ul>
-
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav w-100">
+          <li class="nav-item">
+            <router-link class="nav-link" to="/">Home</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/about">About Us</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/services">Services</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/contact">Contact Us</router-link>
+          </li>
+          <li v-if="!user" class="nav-item ms-lg-auto">
+            <router-link class="nav-link" to="/login">Login</router-link>
+          </li>
+          <li v-if="!user" class="nav-item">
+            <router-link class="nav-link" to="/register">Register</router-link>
+          </li>
+          <li v-if="user" class="nav-item dropdown ms-lg-auto">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fa fa-user me-2"></i>
+              {{ user.name }}
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="#" @click="logout">Logout</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
+  </nav>
 </template>
 
 <style lang="scss" scoped>

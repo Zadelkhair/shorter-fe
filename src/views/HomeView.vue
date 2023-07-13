@@ -560,12 +560,12 @@ const deleteLink = async (id) => {
         <h2>Your Shortlinks :</h2>
         <!-- </center> -->
         <div
-          class="shortlink-item"
+          class="shortlink-item row"
           v-for="link in state.shortlinks"
           :key="link.id"
         >
-          <div class="shortlink-item-left">
-            <div class="shortlink-item-url">
+          <div class="shortlink-item-left col-12 mx-auto col-md-8">
+            <div class="shortlink-item-url shortlink-item-url mx-auto d-flex justify-content-center justify-content-md-start">
               <a
                 :href="`${SERVER_ENDPOINT}/${link.short_url}`"
                 target="_blank"
@@ -576,8 +576,8 @@ const deleteLink = async (id) => {
               <a :href="link.url" target="_blank">{{ link.url }}</a>
             </div>
           </div>
-          <div class="shortlink-item-right">
-            <div class="shortlink-item-stats">
+          <div class="shortlink-item-right col-12 mt-2 mt-md-0 mx-auto col-md-4 justify-content-center justify-content-md-start">
+            <div class="shortlink-item-stats ms-md-auto">
               <div class="shortlink-item-stats-left">
                 <div
                   class="shortlink-item-stats-left-item"
