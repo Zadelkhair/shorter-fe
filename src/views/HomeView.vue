@@ -182,12 +182,15 @@ const loadUrls = async (page) => {
 
     try {
       // get shortlinks from server
-      const res = await axios.get(SERVER_ENDPOINT + "/api/nonloggedinuser/urls", {
-        params: {
-          nonloggedinuser_id,
-          page,
-        },
-      });
+      const res = await axios.get(
+        SERVER_ENDPOINT + "/api/nonloggedinuser/urls",
+        {
+          params: {
+            nonloggedinuser_id,
+            page,
+          },
+        }
+      );
 
       loadersState.loadingShortlinks = false;
 
@@ -207,10 +210,11 @@ const loadUrls = async (page) => {
 };
 
 // loadViews
-const loadViews = async (shortlink_id,page = 1) => {
-
+const loadViews = async (shortlink_id, page = 1) => {
   if (window.user) {
     try {
+      loadersState.loadingViews = true;
+
       // get views from server
       const res = await axios.get(
         SERVER_ENDPOINT + `/api/urls/${shortlink_id}/views`,
@@ -224,6 +228,8 @@ const loadViews = async (shortlink_id,page = 1) => {
         }
       );
 
+      loadersState.loadingViews = false;
+
       state.views = res.data.data.visits.data;
 
       // set pagination info
@@ -231,12 +237,12 @@ const loadViews = async (shortlink_id,page = 1) => {
       state.viewsPagination.from = res.data.data.visits.from;
       state.viewsPagination.to = res.data.data.visits.to;
       state.viewsPagination.last_page = res.data.data.visits.last_page;
-
     } catch (e) {
       console.log(e);
+
+      loadersState.loadingViews = false;
     }
-  }
-  else {
+  } else {
     let nonloggedinuser_id = localStorage.getItem("nonloggedinuser_id");
     // check if non loggedinuser_id exists in logged in
     if (!nonloggedinuser_id) {
@@ -246,6 +252,8 @@ const loadViews = async (shortlink_id,page = 1) => {
     }
 
     try {
+      loadersState.loadingViews = true;
+
       // get views from server
       const res = await axios.get(
         SERVER_ENDPOINT + `/api/nonloggedinuser/urls/${shortlink_id}/views`,
@@ -257,6 +265,8 @@ const loadViews = async (shortlink_id,page = 1) => {
         }
       );
 
+      loadersState.loadingViews = false;
+
       state.views = res.data.data.visits.data;
 
       // set pagination info
@@ -264,12 +274,12 @@ const loadViews = async (shortlink_id,page = 1) => {
       state.viewsPagination.from = res.data.data.visits.from;
       state.viewsPagination.to = res.data.data.visits.to;
       state.viewsPagination.last_page = res.data.data.visits.last_page;
-
     } catch (e) {
       console.log(e);
+
+      loadersState.loadingViews = false;
     }
   }
-
 };
 
 const createShortLink = async () => {
@@ -353,11 +363,14 @@ const createShortLink = async () => {
     try {
       loadersState.creatingShortlink = true;
 
-      const res = await axios.post(SERVER_ENDPOINT + "/api/nonloggedinuser/shorten", {
-        url: state.url,
-        duration: 172800,
-        nonloggedinuser_id,
-      });
+      const res = await axios.post(
+        SERVER_ENDPOINT + "/api/nonloggedinuser/shorten",
+        {
+          url: state.url,
+          duration: 172800,
+          nonloggedinuser_id,
+        }
+      );
 
       loadersState.creatingShortlink = false;
 
@@ -392,15 +405,14 @@ const createShortLink = async () => {
 
 // see views, display the modal
 const seeViews = async (shortlink_id) => {
-
   // reset views
   state.views = [];
 
-  const myModal = document.getElementById('viewsModal');
+  const myModal = document.getElementById("viewsModal");
 
   const modal = new bootstrap.Modal(myModal, {
-    keyboard: false
-  })
+    keyboard: false,
+  });
 
   modal.show();
 
@@ -501,7 +513,6 @@ const deleteLink = async (id) => {
       });
     }
   }
-  
 };
 </script>
 
@@ -568,7 +579,8 @@ const deleteLink = async (id) => {
           <div class="shortlink-item-right">
             <div class="shortlink-item-stats">
               <div class="shortlink-item-stats-left">
-                <div class="shortlink-item-stats-left-item"
+                <div
+                  class="shortlink-item-stats-left-item"
                   @click="seeViews(link.id)"
                 >
                   <i class="fas fa-eye"></i>
@@ -653,7 +665,10 @@ const deleteLink = async (id) => {
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="viewsModalLabel">Views</h5>
+            <h5 class="modal-title" id="viewsModalLabel">
+              <i class="fa fa-eye small" />
+              {{ state.views.length }}
+            </h5>
             <button
               type="button"
               class="btn-close"
@@ -671,14 +686,11 @@ const deleteLink = async (id) => {
             </div>
             <template v-else>
               <div v-if="state.views.length" class="views-list">
-
                 <table class="table table-striped table-hover">
                   <thead>
                     <tr>
                       <th scope="col">IP</th>
-                      <th scope="col"
-                        colspan="2"
-                      >Country</th>
+                      <th scope="col" colspan="2">Country</th>
                       <th scope="col">City</th>
                       <th scope="col">Browser</th>
                       <th scope="col">Device</th>
@@ -693,7 +705,9 @@ const deleteLink = async (id) => {
                           class="country-flag"
                           height="15"
                           width="20"
-                          :src="`http://purecatamphetamine.github.io/country-flag-icons/3x2/${extractCountryCode(view.country)}.svg`"
+                          :src="`http://purecatamphetamine.github.io/country-flag-icons/3x2/${extractCountryCode(
+                            view.country
+                          )}.svg`"
                           alt="country flag"
                         />
                       </td>
@@ -743,9 +757,7 @@ const deleteLink = async (id) => {
                   >
                     <i class="fas fa-arrow-right"></i>
                   </button>
-
                 </div>
-
               </div>
 
               <div v-else class="views-list">
@@ -758,7 +770,6 @@ const deleteLink = async (id) => {
         </div>
       </div>
     </div>
-
   </div>
 </template>
 

@@ -3,6 +3,8 @@ import { reactive } from "vue";
 // import
 import axios from "axios";
 import { SERVER_ENDPOINT } from "@/config.js";
+import Notify from "simple-notify";
+import "simple-notify/dist/simple-notify.min.css";
 
 const registerState = reactive({
   username: "",
@@ -11,19 +13,129 @@ const registerState = reactive({
   password2: "",
 });
 
+const validateState = reactive({
+  username: "",
+  email: "",
+  password: "",
+  password2: "",
+});
+
+const loaderState = reactive({
+  register: false,
+});
+
+// validators
+const validateUsername = () => {
+  // username
+  if (!registerState.username) {
+    validateState.username = "Username is required";
+    return false;
+  } else {
+    validateState.username = "";
+    return true;
+  }
+};
+
+const validateEmail = () => {
+  // email regix
+  const emailRegex = /\S+@\S+\.\S+/;
+
+  // email
+  if (!registerState.email) {
+    validateState.email = "Email is required";
+    return false;
+  } else if (!emailRegex.test(registerState.email)) {
+    validateState.email = "Email is invalid";
+    return false;
+  } else {
+    validateState.email = "";
+    return true;
+  }
+};
+
+const validatePassword = () => {
+  // password
+  if (!registerState.password) {
+    validateState.password = "Password is required";
+    return false;
+  } else {
+    validateState.password = "";
+    return true;
+  }
+};
+
+const validatePassword2 = () => {
+  // password2
+  if (!registerState.password2) {
+    validateState.password2 = "Password is required";
+    return false;
+  } else {
+    validateState.password2 = "";
+    return true;
+  }
+};
+
 const register = async () => {
   const { username, email, password, password2 } = registerState;
 
+  // validate
+  const isUsernameValid = validateUsername();
+  const isEmailValid = validateEmail();
+  const isPasswordValid = validatePassword();
+  const isPassword2Valid = validatePassword2();
+
+  if (
+    !isUsernameValid ||
+    !isEmailValid ||
+    !isPasswordValid ||
+    !isPassword2Valid
+  ) {
+
+    for (const key in validateState) {
+      if (validateState[key]) {
+
+        new Notify({
+          status: "error",
+          title: "Error",
+          text: validateState[key],
+          effect: "fade",
+          autotimeout: 5000,
+          autoclose: true,
+          position: "bottom right",
+        });
+
+        return;
+      }
+    }
+
+    return;
+  }
+
   if (password !== password2) {
-    alert("Passwords do not match");
+    
+    new Notify({
+      status: "error",
+      title: "Error",
+      text: "Passwords do not match",
+      effect: "fade",
+      autotimeout: 5000,
+      autoclose: true,
+      position: "bottom right",
+    });
+
     return;
   }
   try {
+
+    loaderState.register = true;
+
     const res = await axios.post(SERVER_ENDPOINT + "/api/register", {
       name : username,
       email,
       password,
     });
+
+    loaderState.register = false;
 
     const user = JSON.stringify(res.data.data);
     localStorage.setItem("user",user);
@@ -31,6 +143,21 @@ const register = async () => {
 
   } catch (err) {
     console.log(err);
+
+    loaderState.register = false;
+
+    console.log(err.response.data?.error)
+
+    for(const key in err.response.data.error)
+      new Notify({
+        status: "error",
+        title: "Error in " + key,
+        text:  err.response.data?.error[key][0],
+        effect: "fade",
+        autotimeout: 5000,
+        autoclose: true,
+        position: "bottom right",
+      });
   }
 };
 
@@ -81,7 +208,17 @@ const register = async () => {
         />
         <small>Error message</small>
       </div>
-      <button type="submit" @click="register">Register</button>
+      <button type="submit" @click="register">
+        Register
+        <!-- bootstrap loader -->
+        <div
+          class="spinner-border spinner-border-sm"
+          role="status"
+          v-if="loaderState.register"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
       <p>
         Already have an account?
         <router-link to="/login">Login</router-link>
