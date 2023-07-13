@@ -1,0 +1,26 @@
+{
+  "name": "shorter",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.0",
+    "country-flag-icons": "^1.5.7",
+    "moment": "^2.29.4",
+    "notifyjs": "^3.0.0",
+    "simple-notify": "^0.5.5",
+    "uuid": "^9.0.0",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "^1.63.6",
+    "uid": "^2.0.2",
+    "vite": "^4.3.9"
+  }
+}

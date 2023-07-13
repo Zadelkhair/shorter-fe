@@ -1,0 +1,145 @@
+.app-home {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.shortlink-form {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 60px;
+}
+
+.form-control {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border: none;
+  padding: 0;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: red;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+button[type="submit"]:hover {
+  background-color: red;
+}
+
+.shortlink-list {
+  margin-top: 50px;
+}
+
+.shortlink-list h2 {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.shortlink-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 1px solid #ccc;
+  overflow: hidden;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.shortlink-item p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.shortlink-item-right {
+  display: flex;
+  align-items: center;
+}
+
+.shortlink-item-right button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.copy-button {
+  color: #00bfff;
+}
+
+.delete-button {
+  color: red;
+}
+
+.shortlink-item-url {
+  display: flex;
+  align-items: center;
+  flex-grow: 0;
+}
+
+.shortlink-item-url a {
+  color: #00bfff;
+  text-decoration: none;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.shortlink-item-url a:hover {
+  text-decoration: underline;
+}
+
+.shortlink-item-stats {
+  display: flex;
+  align-items: center;
+}
+
+.shortlink-item-stats-left,
+.shortlink-item-stats-right {
+  display: flex;
+  align-items: center;
+}
+
+.shortlink-item-stats-left-item,
+.shortlink-item-stats-right-item {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+
+  span {
+    margin-left: 5px;
+  }
+
+  &:hover {
+    color: black;
+    cursor: pointer;
+  }
+}
