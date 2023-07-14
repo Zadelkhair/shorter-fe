@@ -12,18 +12,22 @@ This guide provides instructions on how to install and set up the frontend for t
 ### Installation Steps
 
 1. Clone the Frontend Repository:
-git clone https://github.com/Zadelkhair/shorter-fe.git
 
-2. Change to the Frontend directory:
+```terminal
+git clone https://github.com/Zadelkhair/shorter-fe.git
+```
+
+3. Change to the Frontend directory:
 cd shorter-fe
 
-3. Install the Dependencies:
+4. Install the Dependencies:
 npm install
 
-4. Configure the Backend Endpoint:
+5. Configure the Backend Endpoint:
 - Open the `/src/config.js` file in your preferred text editor.
 - Locate the `SERVER_ENDPOINT` variable and replace `"the backend url"` with the URL of your backend server. For example:
-  ```
+
+  ```javascript
   export const SERVER_ENDPOINT = "http://localhost:8000";
   ```
   Replace `"http://localhost:8000"` with the actual URL of your backend server.
