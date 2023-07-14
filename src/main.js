@@ -1,5 +1,9 @@
 import './assets/main.css'
 
+import * as Popper from '@popperjs/core';
+
+window.Popper = Popper;
+
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
