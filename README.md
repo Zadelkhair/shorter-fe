@@ -18,12 +18,18 @@ git clone https://github.com/Zadelkhair/shorter-fe.git
 ```
 
 3. Change to the Frontend directory:
+
+```terminal
 cd shorter-fe
+```
 
-4. Install the Dependencies:
+5. Install the Dependencies:
+
+```
 npm install
+```
 
-5. Configure the Backend Endpoint:
+7. Configure the Backend Endpoint:
 - Open the `/src/config.js` file in your preferred text editor.
 - Locate the `SERVER_ENDPOINT` variable and replace `"the backend url"` with the URL of your backend server. For example:
 
@@ -36,13 +42,19 @@ npm install
 - Follow the instructions in the [Shortlink Backend Repository](https://github.com/Zadelkhair/shorter-be) to install and set up the backend server.
 
 6. Run the Frontend in Development Mode:
+
+```
 npm run dev
+```
 
 This command starts the development server for the frontend. You should now be able to access the Shortlink App in your web browser at `http://localhost:8080`.
 
 7. Build for Production:
 If you want to deploy the frontend in a production environment, you need to build the project. Run the following command:
+
+```
 npm run build
+```
 
 This command generates the optimized production-ready files in the `dist` directory.
 
